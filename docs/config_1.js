@@ -1,5 +1,5 @@
 window.config1 = {
-    "date": "2024.06",
+    "date": "2024.09",
     "entries": [
         {
             "quadrant": window.QUADRANT_BOTTOM_RIGHT,
@@ -79,13 +79,6 @@ window.config1 = {
             "moved": 0,
         },
         {
-            "quadrant": window.QUADRANT_TOP_RIGHT,
-            "ring": window.RING_ADOPT,
-            "label": "Python",
-            "active": true,
-            "moved": 0,
-        },
-        {
             "quadrant": window.QUADRANT_BOTTOM_RIGHT,
             "ring": window.RING_TRIAL,
             "label": "React",
@@ -118,14 +111,15 @@ window.config1 = {
             "ring": window.RING_HOLD,
             "label": "jQuery",
             "active": true,
-            "moved": -1,
+            "moved": 0,
         },
         {
             "quadrant": window.QUADRANT_TOP_LEFT,
-            "ring": window.RING_ADOPT,
-            "label": "Clickhouse",
+            "ring": window.RING_TRIAL,
+            "label": "ClickHouse",
+            "link": "https://clickhouse.com/",
             "active": true,
-            "moved": 0,
+            "moved": 2,
         },
         {
             "quadrant": window.QUADRANT_TOP_LEFT,

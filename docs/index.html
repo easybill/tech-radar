@@ -5,7 +5,7 @@
 <meta http-equiv="Content-type" content="text/html; charset=utf-8">
 <meta name="description" content="easybill Tech Radar: a tool to visualize technology choices, inspire and support Engineering teams at easybill to pick the best technologies for new projects">
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Zalando Tech Radar</title>
+<title>easybill Tech Radar</title>
 <link rel="icon" type="image/png" sizes="32x32" href="https://www.easybill.de/logos/favicon/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="https://www.easybill.de/logos/favicon/favicon-16x16.png">
 
@@ -30,7 +30,7 @@ fetch('./config.json').then(function(response) {
   return response.json();
 }).then(function(dataConfig) {
 
-    const data = {"date": dataConfig.date, entries: [
+    const data = {"date": window.config1.date, entries: [
         ...window.config1.entries,
         ...window.config2.entries,
         ...window.config3.entries,
