@@ -54,5 +54,17 @@ window.config4 = {
         "label": "Prometheus",
         "active": true,
         "moved": 0
+    }, {
+        "quadrant": window.QUADRANT_BOTTOM_LEFT,
+        "ring": window.RING_ASSES,
+        "label": "kata-containers",
+        "active": true,
+        "moved": 2
+    }, {
+        "quadrant": window.QUADRANT_BOTTOM_LEFT,
+        "ring": window.RING_ADOPT,
+        "label": "GitHub Actions",
+        "active": true,
+        "moved": 2
     }]
 }
