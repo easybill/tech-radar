@@ -63,8 +63,10 @@ function radar_visualization(config) {
   const rings = [
     { radius: 130 },
     { radius: 220 },
-    { radius: 310 },
-    { radius: 400 }
+    { radius: 280 },
+    { radius: 360 },
+    { radius: 430 },
+    { radius: 490 },
   ];
 
   const title_offset =
@@ -167,10 +169,10 @@ function radar_visualization(config) {
   }
 
   // partition entries according to segments
-  var segmented = new Array(4);
-  for (var quadrant = 0; quadrant < 4; quadrant++) {
-    segmented[quadrant] = new Array(4);
-    for (var ring = 0; ring < 4; ring++) {
+  var segmented = new Array(6);
+  for (var quadrant = 0; quadrant < 6; quadrant++) {
+    segmented[quadrant] = new Array(6);
+    for (var ring = 0; ring < 6; ring++) {
       segmented[quadrant][ring] = [];
     }
   }
@@ -182,7 +184,7 @@ function radar_visualization(config) {
   // assign unique sequential id to each entry
   var id = 1;
   for (var quadrant of [2,3,1,0]) {
-    for (var ring = 0; ring < 4; ring++) {
+    for (var ring = 0; ring < 6; ring++) {
       var entries = segmented[quadrant][ring];
       entries.sort(function(a,b) { return a.label.localeCompare(b.label); })
       for (var i=0; i<entries.length; i++) {
