@@ -8,7 +8,7 @@ window.config4 = {
         "moved": 0
     }, {
         "quadrant": window.QUADRANT_BOTTOM_RIGHT,
-        "ring": window.RING_ADOPT,
+        "ring": window.RING_WORKS,
         "label": "Python",
         "active": true,
         "moved": 2
@@ -60,10 +60,28 @@ window.config4 = {
         "label": "kata-containers",
         "active": true,
         "moved": 2
+    },{
+        "quadrant": window.QUADRANT_BOTTOM_LEFT,
+        "ring": window.RING_ASSES,
+        "label": "Vector.dev",
+        "active": true,
+        "moved": 2
+    }, {
+        "quadrant": window.QUADRANT_BOTTOM_LEFT,
+        "ring": window.RING_ASSES,
+        "label": "OpenTelemetry",
+        "active": true,
+        "moved": 2
     }, {
         "quadrant": window.QUADRANT_BOTTOM_LEFT,
         "ring": window.RING_ADOPT,
         "label": "GitHub Actions",
+        "active": true,
+        "moved": 2
+    }, {
+        "quadrant": window.QUADRANT_BOTTOM_LEFT,
+        "ring": window.RING_ADOPT,
+        "label": "Postfix",
         "active": true,
         "moved": 2
     }]

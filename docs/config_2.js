@@ -11,7 +11,7 @@ window.config2 = {
         },
         {
             "quadrant": window.QUADRANT_BOTTOM_RIGHT,
-            "ring": window.RING_ADOPT,
+            "ring": window.RING_WORKS,
             "label": "Java",
             "active": true,
             "moved": 0
@@ -69,7 +69,7 @@ window.config2 = {
         },
         {
             "quadrant": window.QUADRANT_BOTTOM_LEFT,
-            "ring": window.RING_HOLD,
+            "ring": window.RING_ADOPTED_BUT_BAD,
             "label": "RemoteLog (rlog)",
             "active": true,
             "moved": 0
@@ -112,7 +112,7 @@ window.config2 = {
         },
         {
             "quadrant": window.QUADRANT_BOTTOM_LEFT,
-            "ring": window.RING_HOLD,
+            "ring": window.RING_BAD,
             "label": "Open Telekom Cloud",
             "active": true,
             "moved": 0
