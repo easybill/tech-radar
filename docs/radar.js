@@ -35,6 +35,7 @@ function radar_visualization(config) {
   config.links_in_new_tabs = ("links_in_new_tabs" in config) ? config.links_in_new_tabs : true;
   config.repo_url = config.repo_url || '#';
   config.print_ring_descriptions_table = ("print_ring_descriptions_table" in config) ? config.print_ring_descriptions_table : false;
+  config.footer_offset = config.footer_offset || { x: -155, y: 503 };
 
   // custom random number generator, to make random sequence reproducible
   // source: https://stackoverflow.com/questions/521295
@@ -60,26 +61,21 @@ function radar_visualization(config) {
     { radial_min: -0.5, radial_max: 0, factor_x: 1, factor_y: -1 }
   ];
 
-  const rings = [
-    { radius: 130 },
-    { radius: 220 },
-    { radius: 280 },
-    { radius: 360 },
-    { radius: 430 },
-    { radius: 490 },
-  ];
+  // steps of 70
+  const ring_count = 6;
+  const rings = new Array(ring_count);
+  for (let ring = 0; ring < ring_count; ring++) {
+    rings[ring] = { radius: 130 + (ring * 70) };
+  }
 
   const title_offset =
-    { x: -675, y: -420 };
-
-  const footer_offset =
-    { x: -155, y: 450 };
+    { x: -600, y: -450 };
 
   const legend_offset = [
-    { x: 450, y: 90 },
-    { x: -675, y: 90 },
-    { x: -675, y: -310 },
-    { x: 450, y: -310 }
+    { x: 512, y: 90 },
+    { x: -750, y: 90 },
+    { x: -750, y: -310 },
+    { x: 512, y: -310 },
   ];
 
   function polar(cartesian) {
@@ -132,8 +128,8 @@ function radar_visualization(config) {
       y: 15 * quadrants[quadrant].factor_y
     };
     var cartesian_max = {
-      x: rings[3].radius * quadrants[quadrant].factor_x,
-      y: rings[3].radius * quadrants[quadrant].factor_y
+      x: rings.at(-1).radius * quadrants[quadrant].factor_x,
+      y: rings.at(-1).radius * quadrants[quadrant].factor_y
     };
     return {
       clipx: function(d) {
@@ -169,10 +165,10 @@ function radar_visualization(config) {
   }
 
   // partition entries according to segments
-  var segmented = new Array(6);
-  for (var quadrant = 0; quadrant < 6; quadrant++) {
-    segmented[quadrant] = new Array(6);
-    for (var ring = 0; ring < 6; ring++) {
+  var segmented = new Array(config.quadrants.length);
+  for (var quadrant = 0; quadrant < config.quadrants.length; quadrant++) {
+    segmented[quadrant] = new Array(ring_count);
+    for (var ring = 0; ring < ring_count; ring++) {
       segmented[quadrant][ring] = [];
     }
   }
@@ -184,7 +180,7 @@ function radar_visualization(config) {
   // assign unique sequential id to each entry
   var id = 1;
   for (var quadrant of [2,3,1,0]) {
-    for (var ring = 0; ring < 6; ring++) {
+    for (var ring = 0; ring < ring_count; ring++) {
       var entries = segmented[quadrant][ring];
       entries.sort(function(a,b) { return a.label.localeCompare(b.label); })
       for (var i=0; i<entries.length; i++) {
@@ -230,13 +226,13 @@ function radar_visualization(config) {
 
   // draw grid lines
   grid.append("line")
-    .attr("x1", 0).attr("y1", -400)
-    .attr("x2", 0).attr("y2", 400)
+    .attr("x1", 0).attr("y1", -490)
+    .attr("x2", 0).attr("y2", 490)
     .style("stroke", config.colors.grid)
     .style("stroke-width", 1);
   grid.append("line")
-    .attr("x1", -400).attr("y1", 0)
-    .attr("x2", 400).attr("y2", 0)
+    .attr("x1", -490).attr("y1", 0)
+    .attr("x2", 490).attr("y2", 0)
     .style("stroke", config.colors.grid)
     .style("stroke-width", 1);
 
@@ -278,12 +274,16 @@ function radar_visualization(config) {
     }
   }
 
-  function legend_transform(quadrant, ring, index=null) {
-    var dx = ring < 2 ? 0 : 140;
-    var dy = (index == null ? -16 : index * 12);
-    if (ring % 2 === 1) {
-      dy = dy + 36 + segmented[quadrant][ring-1].length * 12;
+  function legend_transform(quadrant, ring, index = null) {
+    const align_left = ring < 3;
+    const dx = align_left ? 0 : 140;
+    const base_ring_idx = align_left ? 0 : 3;
+
+    let dy = index !== null ? index * 12 : -16;
+    for (let r = base_ring_idx; r < ring; r++) {
+      dy += 36 + segmented[quadrant][r].length * 12;
     }
+
     return translate(
       legend_offset[quadrant].x + dx,
       legend_offset[quadrant].y + dy
@@ -315,15 +315,15 @@ function radar_visualization(config) {
 
     // footer
     radar.append("text")
-      .attr("transform", translate(footer_offset.x, footer_offset.y))
-      .text("▲ moved up     ▼ moved down     ★ new     〇 no change")
+      .attr("transform", translate(config.footer_offset.x, config.footer_offset.y))
+      .text("▲ moved up     ▼ moved down     ★ new     ⬤ no change")
       .attr("xml:space", "preserve")
       .style("font-family", config.font_family)
       .style("font-size", "12px");
 
     // legend
     var legend = radar.append("g");
-    for (var quadrant = 0; quadrant < 4; quadrant++) {
+    for (var quadrant = 0; quadrant < config.quadrants.length; quadrant++) {
       legend.append("text")
         .attr("transform", translate(
           legend_offset[quadrant].x,
@@ -333,7 +333,7 @@ function radar_visualization(config) {
         .style("font-family", config.font_family)
         .style("font-size", "18px")
         .style("font-weight", "bold");
-      for (var ring = 0; ring < 4; ring++) {
+      for (var ring = 0; ring < ring_count; ring++) {
         legend.append("text")
           .attr("transform", legend_transform(quadrant, ring))
           .text(config.rings[ring].name)
@@ -501,23 +501,24 @@ function radar_visualization(config) {
     var table = d3.select("body").append("table")
       .attr("class", "radar-table")
       .style("border-collapse", "collapse")
-      .style("margin-top", "20px")
+      .style("position", "relative")
+      .style("top", "-70px")  // Adjust this value to move the table closer vertically
       .style("margin-left", "50px")
       .style("margin-right", "50px")
       .style("font-family", config.font_family)
       .style("font-size", "13px")
       .style("text-align", "left");
-  
+
     var thead = table.append("thead");
     var tbody = table.append("tbody");
-  
+
     // define fixed width for each column
     var columnWidth = `${100 / config.rings.length}%`;
-  
+
     // create table header row with ring names
     var headerRow = thead.append("tr")
       .style("border", "1px solid #ddd");
-  
+
     headerRow.selectAll("th")
       .data(config.rings)
       .enter()
@@ -528,11 +529,11 @@ function radar_visualization(config) {
       .style("color", "#fff")
       .style("width", columnWidth)
       .text(d => d.name);
-  
+
     // create table body row with descriptions
     var descriptionRow = tbody.append("tr")
       .style("border", "1px solid #ddd");
-  
+
     descriptionRow.selectAll("td")
       .data(config.rings)
       .enter()
