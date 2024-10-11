@@ -6,6 +6,11 @@ COPY docs/index.html index.html
 RUN curl -L --no-progress-meter -o d3.js https://d3js.org/d3.v7.min.js
 RUN sed -i 's|<script src="https://d3js.org/d3.v7.min.js"></script>|<script src="d3.js"></script>|' index.html
 
+# use version from package.json in index.html
+COPY package.json package.json
+RUN VERSION=$(grep '"version":' package.json | cut -d '"' -f4) && \
+    sed -i "s|date: \"dev.local\"|date: \"$VERSION\"|" index.html
+
 # download nginx prometheus exporter
 ARG NGINX_EXPORTER_VERSION=1.3.0
 RUN curl -L --no-progress-meter -o nginx-prometheus-exporter.tar.gz https://github.com/nginxinc/nginx-prometheus-exporter/releases/download/v${NGINX_EXPORTER_VERSION}/nginx-prometheus-exporter_${NGINX_EXPORTER_VERSION}_linux_amd64.tar.gz && \

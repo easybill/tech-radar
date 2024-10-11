@@ -1,5 +1,4 @@
 window.config1 = {
-    "date": "2024.09",
     "entries": [
         {
             "quadrant": window.QUADRANT_BOTTOM_RIGHT,
