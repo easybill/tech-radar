@@ -3,8 +3,8 @@ WORKDIR /downloads
 
 # download d3 and replace the download url in the index file
 COPY docs/index.html index.html
-RUN curl -L --no-progress-meter -o d3.js https://d3js.org/d3.v4.min.js
-RUN sed -i 's|<script src="https://d3js.org/d3.v4.min.js"></script>|<script src="d3.js"></script>|' index.html
+RUN curl -L --no-progress-meter -o d3.js https://d3js.org/d3.v7.min.js
+RUN sed -i 's|<script src="https://d3js.org/d3.v7.min.js"></script>|<script src="d3.js"></script>|' index.html
 
 # download nginx prometheus exporter
 ARG NGINX_EXPORTER_VERSION=1.3.0
