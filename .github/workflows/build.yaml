@@ -61,5 +61,5 @@ jobs:
           platforms: linux/amd64
           context: '.'
           tags: |
-            techradar:latest
-            techradar:${{ github.event.inputs.version }}
+            easybill/techradar:latest
+            easybill/techradar:${{ github.event.inputs.version }}
