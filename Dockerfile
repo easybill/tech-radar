@@ -12,7 +12,7 @@ RUN VERSION=$(grep '"version":' package.json | cut -d '"' -f4) && \
     sed -i "s|date: \"dev.local\"|date: \"$VERSION\"|" index.html
 
 # download nginx prometheus exporter
-ARG NGINX_EXPORTER_VERSION=1.3.0
+ARG NGINX_EXPORTER_VERSION=1.5.0
 RUN curl -L --no-progress-meter -o nginx-prometheus-exporter.tar.gz https://github.com/nginxinc/nginx-prometheus-exporter/releases/download/v${NGINX_EXPORTER_VERSION}/nginx-prometheus-exporter_${NGINX_EXPORTER_VERSION}_linux_amd64.tar.gz && \
     tar -xzvf nginx-prometheus-exporter.tar.gz && \
     chmod +x nginx-prometheus-exporter
